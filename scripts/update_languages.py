@@ -1,4 +1,4 @@
-# 포크를 포함한 공개 저장소의 언어 바이트를 조회해 하나비 원형 게이지를 갱신함.
+# 공개·비공개와 포크를 포함한 소유 저장소의 언어 바이트를 조회해 하나비 원형 게이지를 갱신함.
 # 카드 배경과 경기천년체는 저장소 에셋에서 읽고 변경 시 README 이미지 주소도 갱신함.
 from __future__ import annotations
 
@@ -28,35 +28,43 @@ COLORS = ["#FD7688", "#FF9EB3", "#E8365D", "#C9BCD5", "#9DBBE7", "#D39ABB", "#76
 KNOWN_COLORS = dict(zip(("TypeScript", "Rust", "Dart", "Shell", "JavaScript", "CSS", "Python", "C++"), COLORS))
 
 
-def github_json(url: str) -> object:
-    """입력: GitHub API URL; 반환: 인증 가능한 공개 API의 JSON 응답."""
+def github_json(url: str, token: str) -> object:
+    """입력: GitHub API URL·토큰; 반환: 접근 권한이 있는 API의 JSON 응답."""
     headers = {"Accept": "application/vnd.github+json", "User-Agent": "hanabi-profile-language-card"}
-    if token := os.environ.get("GITHUB_TOKEN"):
+    if token:
         headers["Authorization"] = f"Bearer {token}"
     with urlopen(Request(url, headers=headers), timeout=20) as response:
         return json.load(response)
 
 
 def language_bytes(login: str) -> dict[str, int]:
-    """입력: GitHub 계정명; 반환: 포크를 포함한 공개 저장소별 언어 바이트의 합계."""
+    """입력: GitHub 계정명; 반환: 공개·비공개 소유 저장소 언어 바이트의 합계."""
+    private_token = os.environ.get("PROFILE_LANGUAGES_TOKEN")
+    if not private_token:
+        raise RuntimeError("PROFILE_LANGUAGES_TOKEN is required to avoid a public-only refresh")
     totals: Counter[str] = Counter()
-    page = 1
-    while True:
-        query = urlencode({"type": "owner", "per_page": 100, "page": page})
-        repos = github_json(f"https://api.github.com/users/{login}/repos?{query}")
-        if not isinstance(repos, list):
-            raise ValueError("GitHub repository response is not a list")
-        for repo in repos:
-            if repo["private"] or repo["owner"]["login"].casefold() != login.casefold():
-                continue
-            counts = github_json(repo["languages_url"])
-            for language, size in counts.items():
-                totals[language] += size
-        if len(repos) < 100:
-            break
-        page += 1
+    for private in (False, True):
+        token = private_token if private else os.environ.get("GITHUB_TOKEN", "")
+        endpoint = ("https://api.github.com/user/repos" if private
+                    else f"https://api.github.com/users/{login}/repos")
+        page = 1
+        while True:
+            query = urlencode({"visibility": "private", "affiliation": "owner", "per_page": 100, "page": page} if private
+                              else {"type": "owner", "per_page": 100, "page": page})
+            repos = github_json(f"{endpoint}?{query}", token)
+            if not isinstance(repos, list):
+                raise ValueError("GitHub repository response is not a list")
+            for repo in repos:
+                if repo["private"] != private or repo["owner"]["login"].casefold() != login.casefold():
+                    continue
+                counts = github_json(repo["languages_url"], token)
+                for language, size in counts.items():
+                    totals[language] += size
+            if len(repos) < 100:
+                break
+            page += 1
     if not totals:
-        raise ValueError("No public language data; keeping the existing card")
+        raise ValueError("No language data; keeping the existing card")
     return dict(totals)
 
 
@@ -104,7 +112,7 @@ def render(counts: dict[str, int]) -> bytes:
     top_font = fitted_font(draw, top_name, 145, 21)
     draw.text((cx, cy-22*S), top_name, font=top_font, fill="#C9BCD5", anchor="mm")
     draw.text((cx, cy+20*S), f"{top_size / total * 100:.2f}%", font=center_value, fill="#FFF5F8", anchor="mm")
-    draw.text((380*S, 38*S), "저장소 언어", font=bold, fill="#FFF5F8")
+    draw.text((380*S, 38*S), "Most Used Languages", font=bold, fill="#FFF5F8")
     for x in range(380*S, 811*S):
         t = (x-380*S) / (430*S)
         color = (round(253*(1-t)+118*t), round(118*(1-t)+94*t), round(136*(1-t)+152*t))

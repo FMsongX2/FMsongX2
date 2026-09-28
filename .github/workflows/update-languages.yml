@@ -17,9 +17,16 @@ jobs:
           python-version: '3.13'
       - run: python -m pip install --disable-pip-version-check Pillow==12.3.0
       - run: python scripts/test_update_languages.py
-      - run: python scripts/update_languages.py
+      - name: Update card
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          PROFILE_LANGUAGES_TOKEN: ${{ secrets.PROFILE_LANGUAGES_TOKEN }}
+        run: |
+          if [ -z "$PROFILE_LANGUAGES_TOKEN" ]; then
+            echo '::warning::PROFILE_LANGUAGES_TOKEN is missing; keeping the existing card'
+            exit 0
+          fi
+          python scripts/update_languages.py
       - name: Commit changed card
         run: |
           if git diff --quiet -- README.md assets/hanabi-github-languages-night.png; then
