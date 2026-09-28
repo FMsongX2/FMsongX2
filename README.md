@@ -1,12 +1,6 @@
-<div align="center">
-
-# Hajung Yang
-
-그래픽스 · 엔진 · 시스템 · 개발 도구
-
-상태의 수명과 데이터 흐름을 따라 문제를 분석하고, 직접 쓰는 도구를 만듦.
-
-</div>
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&amp;color=0:2b5876,100:4e4376&amp;height=200&amp;section=header&amp;text=FMsongX2&amp;fontSize=45&amp;fontColor=ffffff&amp;animation=fadeIn&amp;fontAlignY=35&amp;desc=Network%20%7C%20Graphics%20%7C%20Reinforce%20Learning&amp;descAlignY=55&amp;descSize=18" alt="FMsongX2 — Network | Graphics | Reinforce Learning" />
+</p>
 
 <div align="right">
 
