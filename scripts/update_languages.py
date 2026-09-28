@@ -1,0 +1,151 @@
+# 공개 원본 저장소의 언어 바이트를 조회해 하나비 원형 게이지를 갱신함.
+# 카드 배경과 경기천년체는 저장소 에셋에서 읽고 변경 시 README 이미지 주소도 갱신함.
+from __future__ import annotations
+
+import argparse
+import hashlib
+import io
+import json
+import os
+import re
+from collections import Counter
+from pathlib import Path
+from urllib.parse import urlencode
+from urllib.request import Request, urlopen
+
+from PIL import Image, ImageDraw, ImageFilter, ImageFont
+
+
+ROOT = Path(__file__).resolve().parents[1]
+ASSETS = ROOT / "assets"
+OUTPUT = ASSETS / "hanabi-github-languages-night.png"
+README = ROOT / "README.md"
+FONT_DIR = ASSETS / "fonts"
+S = 2
+W, H = 860, 340
+SIZE = (W * S, H * S)
+COLORS = ["#FD7688", "#FF9EB3", "#E8365D", "#C9BCD5", "#9DBBE7", "#D39ABB", "#76A4D5", "#FF5E7E"]
+KNOWN_COLORS = dict(zip(("TypeScript", "Rust", "Dart", "Shell", "JavaScript", "CSS", "Python", "C++"), COLORS))
+
+
+def github_json(url: str) -> object:
+    """입력: GitHub API URL; 반환: 인증 가능한 공개 API의 JSON 응답."""
+    headers = {"Accept": "application/vnd.github+json", "User-Agent": "hanabi-profile-language-card"}
+    if token := os.environ.get("GITHUB_TOKEN"):
+        headers["Authorization"] = f"Bearer {token}"
+    with urlopen(Request(url, headers=headers), timeout=20) as response:
+        return json.load(response)
+
+
+def language_bytes(login: str) -> dict[str, int]:
+    """입력: GitHub 계정명; 반환: 공개 원본 저장소별 언어 바이트의 합계."""
+    totals: Counter[str] = Counter()
+    page = 1
+    while True:
+        query = urlencode({"type": "owner", "per_page": 100, "page": page})
+        repos = github_json(f"https://api.github.com/users/{login}/repos?{query}")
+        if not isinstance(repos, list):
+            raise ValueError("GitHub repository response is not a list")
+        for repo in repos:
+            if repo["fork"] or repo["private"] or repo["owner"]["login"].casefold() != login.casefold():
+                continue
+            counts = github_json(repo["languages_url"])
+            for language, size in counts.items():
+                totals[language] += size
+        if len(repos) < 100:
+            break
+        page += 1
+    if not totals:
+        raise ValueError("No public language data; keeping the existing card")
+    return dict(totals)
+
+
+def fitted_font(draw: ImageDraw.ImageDraw, text: str, max_width: int, start_size: int) -> ImageFont.FreeTypeFont:
+    """입력: 그리기 도구·문구·최대 폭·기본 크기; 반환: 카드 폭에 맞는 경기천년체."""
+    for size in range(start_size, 11, -1):
+        font = ImageFont.truetype(FONT_DIR / "GyeonggiTitle-Medium.ttf", size * S)
+        if draw.textlength(text, font=font) <= max_width * S:
+            return font
+    return font
+
+
+def render(counts: dict[str, int]) -> bytes:
+    """입력: 언어별 바이트 수; 반환: 원형 게이지 PNG 바이트."""
+    total = sum(counts.values())
+    if total <= 0:
+        raise ValueError("Language byte total must be positive")
+    languages = sorted(counts.items(), key=lambda item: (-item[1], item[0]))[:8]
+    image = Image.open(ASSETS / "hanabi-github-languages-bg.png").convert("RGBA")
+    if image.size != SIZE:
+        raise ValueError(f"Background size must be {SIZE}")
+    bold = ImageFont.truetype(FONT_DIR / "GyeonggiTitle-Bold.ttf", 34 * S)
+    medium = ImageFont.truetype(FONT_DIR / "GyeonggiTitle-Medium.ttf", 21 * S)
+    center_value = ImageFont.truetype(FONT_DIR / "GyeonggiTitle-Bold.ttf", 37 * S)
+
+    draw = ImageDraw.Draw(image)
+    draw.rounded_rectangle((2*S, 2*S, (W-2)*S, (H-2)*S), radius=20*S, outline="#FD7688", width=2*S)
+    cx, cy, radius = 185*S, 170*S, 122*S
+    glow = Image.new("RGBA", SIZE)
+    ImageDraw.Draw(glow).ellipse((cx-140*S, cy-140*S, cx+140*S, cy+140*S), fill=(253, 118, 136, 50))
+    image = Image.alpha_composite(image, glow.filter(ImageFilter.GaussianBlur(24*S)))
+    draw = ImageDraw.Draw(image)
+    box = (cx-radius, cy-radius, cx+radius, cy+radius)
+    draw.arc(box, -90, 270, fill="#47394E", width=36*S)
+    angle = -90.0
+    for index, (language, size) in enumerate(languages):
+        span = size / total * 360
+        gap = min(0.12, span / 4)
+        draw.arc(box, angle + gap, angle + span - gap,
+                 fill=KNOWN_COLORS.get(language, COLORS[index]), width=36*S)
+        angle += span
+
+    draw.ellipse((cx-82*S, cy-82*S, cx+82*S, cy+82*S), fill="#211D2C", outline="#6E536C", width=2*S)
+    top_name, top_size = languages[0]
+    top_font = fitted_font(draw, top_name, 145, 21)
+    draw.text((cx, cy-22*S), top_name, font=top_font, fill="#C9BCD5", anchor="mm")
+    draw.text((cx, cy+20*S), f"{top_size / total * 100:.2f}%", font=center_value, fill="#FFF5F8", anchor="mm")
+    draw.text((380*S, 38*S), "사용 언어", font=bold, fill="#FFF5F8")
+    for x in range(380*S, 811*S):
+        t = (x-380*S) / (430*S)
+        color = (round(253*(1-t)+118*t), round(118*(1-t)+94*t), round(136*(1-t)+152*t))
+        draw.line((x, 85*S, x, 89*S), fill=color)
+    for index, (language, size) in enumerate(languages):
+        column, row = divmod(index, 4)
+        x = (380 if column == 0 else 610) * S
+        y = (114 + row*50) * S
+        color = KNOWN_COLORS.get(language, COLORS[index])
+        draw.ellipse((x, y+6*S, x+14*S, y+20*S), fill=color)
+        label_font = fitted_font(draw, language, 128, 21)
+        draw.text((x+25*S, y), language, font=label_font, fill="#F8F0F5")
+        draw.text((x+205*S, y), f"{size / total * 100:.2f}%", font=medium, fill="#E7DDEC", anchor="ra")
+    clip = Image.new("L", SIZE)
+    ImageDraw.Draw(clip).rounded_rectangle((2*S, 2*S, (W-2)*S, (H-2)*S), radius=20*S, fill=255)
+    image.putalpha(clip)
+    buffer = io.BytesIO()
+    image.save(buffer, format="PNG")
+    return buffer.getvalue()
+
+
+def main() -> None:
+    """입력: 선택적 언어 스냅샷 경로; 반환: 없음. 카드와 README 캐시 키를 변경 시 갱신함."""
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--snapshot", type=Path)
+    args = parser.parse_args()
+    login = os.environ.get("GITHUB_REPOSITORY_OWNER", "FMsongX2")
+    counts = json.loads(args.snapshot.read_text()) if args.snapshot else language_bytes(login)
+    png = render(counts)
+    digest = hashlib.sha256(png).hexdigest()[:12]
+    if not OUTPUT.exists() or OUTPUT.read_bytes() != png:
+        OUTPUT.write_bytes(png)
+    readme = README.read_text()
+    pattern = re.compile(r"hanabi-github-languages-night\.png(?:\?v=[0-9a-f]{12})?")
+    if not pattern.search(readme):
+        raise ValueError("README image reference is missing")
+    updated = pattern.sub(f"hanabi-github-languages-night.png?v={digest}", readme)
+    if updated != readme:
+        README.write_text(updated)
+    print(f"{login}: {len(counts)} languages, card revision {digest}")
+
+
+if __name__ == "__main__":
+    main()
