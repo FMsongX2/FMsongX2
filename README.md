@@ -6,7 +6,11 @@
 
 상태의 수명과 데이터 흐름을 따라 문제를 분석하고, 직접 쓰는 도구를 만듦.
 
-<img src="https://raw.githubusercontent.com/FMsongX2/FMsongX2/main/assets/hanabi-sleep-transparent.gif" alt="잠자는 하나비 이모티콘" width="300" />
+</div>
+
+<div align="right">
+
+<img src="https://raw.githubusercontent.com/FMsongX2/FMsongX2/main/assets/hanabi-sleep-transparent.gif" alt="잠자는 하나비 이모티콘" width="145" />
 
 </div>
 
@@ -14,8 +18,8 @@
 
 <div align="center">
 
-<img src="https://github-readme-stats-one-bice.vercel.app/api?username=FMsongX2&amp;theme=calm&amp;show_icons=true&amp;include_all_commits=true&amp;role=OWNER" alt="GitHub 통계" height="185" />
-<img src="https://github-readme-stats-one-bice.vercel.app/api/top-langs/?username=FMsongX2&amp;layout=compact&amp;langs_count=8&amp;theme=calm&amp;role=OWNER" alt="사용 언어" height="185" />
+<img src="https://raw.githubusercontent.com/FMsongX2/FMsongX2/main/assets/hanabi-github-stats.png" alt="GitHub 통계 — 2026년 9월 기준" height="185" />
+<img src="https://raw.githubusercontent.com/FMsongX2/FMsongX2/main/assets/hanabi-github-languages.png" alt="사용 언어 — 2026년 9월 기준" height="185" />
 
 </div>
 
