@@ -2,7 +2,7 @@
   <img src="https://capsule-render.vercel.app/api?type=waving&amp;color=0:2b5876,100:4e4376&amp;height=200&amp;section=header&amp;text=FMsongX2&amp;fontSize=45&amp;fontColor=ffffff&amp;animation=fadeIn&amp;fontAlignY=35&amp;desc=Systems%20Programming%20%2F%20High-Performance%20Networking%20%2F%20Software%20Architecture&amp;descAlignY=55&amp;descSize=18" alt="FMsongX2 — Systems Programming / High-Performance Networking / Software Architecture" />
 </p>
 
-# Hi! <img src="https://raw.githubusercontent.com/FMsongX2/FMsongX2/main/assets/hanabi-wave.png" alt="Waving Hanabi" width="54" align="bottom" /> I'm FMsongX2
+# Hi! <img src="https://raw.githubusercontent.com/FMsongX2/FMsongX2/main/assets/hanabi-wave.png" alt="Waving Hanabi" width="42" align="bottom" /> I'm FMsongX2
 
 ## Interests
 
