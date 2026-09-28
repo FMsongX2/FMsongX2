@@ -1,4 +1,4 @@
-# 공개 원본 저장소의 언어 바이트를 조회해 하나비 원형 게이지를 갱신함.
+# 포크를 포함한 공개 저장소의 언어 바이트를 조회해 하나비 원형 게이지를 갱신함.
 # 카드 배경과 경기천년체는 저장소 에셋에서 읽고 변경 시 README 이미지 주소도 갱신함.
 from __future__ import annotations
 
@@ -38,7 +38,7 @@ def github_json(url: str) -> object:
 
 
 def language_bytes(login: str) -> dict[str, int]:
-    """입력: GitHub 계정명; 반환: 공개 원본 저장소별 언어 바이트의 합계."""
+    """입력: GitHub 계정명; 반환: 포크를 포함한 공개 저장소별 언어 바이트의 합계."""
     totals: Counter[str] = Counter()
     page = 1
     while True:
@@ -47,7 +47,7 @@ def language_bytes(login: str) -> dict[str, int]:
         if not isinstance(repos, list):
             raise ValueError("GitHub repository response is not a list")
         for repo in repos:
-            if repo["fork"] or repo["private"] or repo["owner"]["login"].casefold() != login.casefold():
+            if repo["private"] or repo["owner"]["login"].casefold() != login.casefold():
                 continue
             counts = github_json(repo["languages_url"])
             for language, size in counts.items():
@@ -104,7 +104,7 @@ def render(counts: dict[str, int]) -> bytes:
     top_font = fitted_font(draw, top_name, 145, 21)
     draw.text((cx, cy-22*S), top_name, font=top_font, fill="#C9BCD5", anchor="mm")
     draw.text((cx, cy+20*S), f"{top_size / total * 100:.2f}%", font=center_value, fill="#FFF5F8", anchor="mm")
-    draw.text((380*S, 38*S), "사용 언어", font=bold, fill="#FFF5F8")
+    draw.text((380*S, 38*S), "저장소 언어", font=bold, fill="#FFF5F8")
     for x in range(380*S, 811*S):
         t = (x-380*S) / (430*S)
         color = (round(253*(1-t)+118*t), round(118*(1-t)+94*t), round(136*(1-t)+152*t))

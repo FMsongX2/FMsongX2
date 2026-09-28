@@ -1,4 +1,4 @@
-# 언어 API 집계의 저장소 필터와 원형 카드의 출력 계약을 확인함.
+# 언어 API 집계에 포크가 포함되는지와 원형 카드의 출력 계약을 확인함.
 # 외부 네트워크 없이 실행하며 실제 API 연결은 갱신 작업에서 확인함.
 import io
 
@@ -16,12 +16,12 @@ def fake_github_json(url: str) -> object:
             {"fork": True, "private": False, "owner": {"login": "FMsongX2"}, "languages_url": "https://example.test/fork"},
             {"fork": False, "private": False, "owner": {"login": "other"}, "languages_url": "https://example.test/other"},
         ]
-    return {"https://example.test/one": {"TypeScript": 100}, "https://example.test/two": {"TypeScript": 50, "Rust": 50}}[url]
+    return {"https://example.test/one": {"TypeScript": 100}, "https://example.test/two": {"TypeScript": 50, "Rust": 50}, "https://example.test/fork": {"C#": 30}}[url]
 
 
 card.github_json = fake_github_json
 counts = card.language_bytes("FMsongX2")
-assert counts == {"TypeScript": 150, "Rust": 50}
+assert counts == {"TypeScript": 150, "Rust": 50, "C#": 30}
 png = card.render(counts)
 assert png == card.render(counts)
 image = Image.open(io.BytesIO(png)).convert("RGBA")
