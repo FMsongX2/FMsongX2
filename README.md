@@ -18,8 +18,8 @@
 
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/FMsongX2/FMsongX2/main/assets/hanabi-github-stats.png" alt="GitHub 통계 — 2026년 9월 기준" height="185" />
-<img src="https://raw.githubusercontent.com/FMsongX2/FMsongX2/main/assets/hanabi-github-languages.png" alt="사용 언어 — 2026년 9월 기준" height="185" />
+<img src="https://raw.githubusercontent.com/FMsongX2/FMsongX2/main/assets/hanabi-github-stats-ivory.png" alt="GitHub 통계 — 2026년 9월 기준" height="185" />
+<img src="https://raw.githubusercontent.com/FMsongX2/FMsongX2/main/assets/hanabi-github-languages-ivory.png" alt="사용 언어 — 2026년 9월 기준" height="185" />
 
 </div>
 
