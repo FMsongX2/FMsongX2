@@ -18,5 +18,6 @@
 </div>
 
 <p align="center">
-  <img src="./profile-3d-contrib/profile-hanabi-night.svg" alt="3D GitHub contribution graph" width="100%" />
+  <img src="./assets/hanabi-sparkles-pose.gif" alt="양팔을 벌리고 별이 반짝이는 하나비" width="27%" align="bottom" />
+  <img src="./profile-3d-contrib/profile-hanabi-night.svg" alt="3D GitHub contribution graph" width="71%" align="bottom" />
 </p>
