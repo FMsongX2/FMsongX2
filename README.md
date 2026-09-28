@@ -6,7 +6,7 @@
 
 상태의 수명과 데이터 흐름을 따라 문제를 분석하고, 직접 쓰는 도구를 만듦.
 
-<img src="https://raw.githubusercontent.com/FMsongX2/FMsongX2/main/assets/hanabi-sleep.gif" alt="잠자는 하나비 이모티콘" width="300" />
+<img src="https://raw.githubusercontent.com/FMsongX2/FMsongX2/main/assets/hanabi-sleep-transparent.gif" alt="잠자는 하나비 이모티콘" width="300" />
 
 </div>
 
