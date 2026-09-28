@@ -19,6 +19,7 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 ROOT = Path(__file__).resolve().parents[1]
 ASSETS = ROOT / "assets"
 OUTPUT = ASSETS / "hanabi-github-languages-night.png"
+ANIMATED_OUTPUT = ASSETS / "hanabi-github-languages-animated.gif"
 README = ROOT / "README.md"
 FONT_DIR = ASSETS / "fonts"
 S = 2
@@ -88,7 +89,6 @@ def render(counts: dict[str, int]) -> bytes:
         raise ValueError(f"Background size must be {SIZE}")
     bold = ImageFont.truetype(FONT_DIR / "GyeonggiTitle-Bold.ttf", 34 * S)
     medium = ImageFont.truetype(FONT_DIR / "GyeonggiTitle-Medium.ttf", 21 * S)
-    center_value = ImageFont.truetype(FONT_DIR / "GyeonggiTitle-Bold.ttf", 37 * S)
 
     draw = ImageDraw.Draw(image)
     draw.rounded_rectangle((2*S, 2*S, (W-2)*S, (H-2)*S), radius=20*S, outline="#FD7688", width=2*S)
@@ -108,10 +108,6 @@ def render(counts: dict[str, int]) -> bytes:
         angle += span
 
     draw.ellipse((cx-82*S, cy-82*S, cx+82*S, cy+82*S), fill="#211D2C", outline="#6E536C", width=2*S)
-    top_name, top_size = languages[0]
-    top_font = fitted_font(draw, top_name, 145, 21)
-    draw.text((cx, cy-22*S), top_name, font=top_font, fill="#C9BCD5", anchor="mm")
-    draw.text((cx, cy+20*S), f"{top_size / total * 100:.2f}%", font=center_value, fill="#FFF5F8", anchor="mm")
     draw.text((380*S, 38*S), "Most Used Languages", font=bold, fill="#FFF5F8")
     for x in range(380*S, 811*S):
         t = (x-380*S) / (430*S)
@@ -134,6 +130,30 @@ def render(counts: dict[str, int]) -> bytes:
     return buffer.getvalue()
 
 
+def animate(png: bytes) -> bytes:
+    """입력: 정적 언어 카드 PNG; 반환: 도넛 중심에 수면 이모티콘을 합성한 GIF."""
+    base = Image.open(io.BytesIO(png)).convert("RGBA").resize((W, H), Image.Resampling.LANCZOS)
+    emoji_source = Image.open(ASSETS / "hanabi-sleep-transparent.gif")
+    palette = base.convert("RGB").quantize(colors=255, method=Image.Quantize.MEDIANCUT)
+    frames = []
+    for index in range(140):
+        emoji_source.seek(round(index * emoji_source.n_frames / 140))
+        emoji = emoji_source.convert("RGBA").resize((140, 140), Image.Resampling.LANCZOS)
+        frame = base.copy()
+        frame.alpha_composite(emoji, (115, 100))
+        quantized = frame.convert("RGB").quantize(palette=palette, dither=Image.Dither.NONE)
+        result = Image.frombytes("P", frame.size, bytes(value + 1 for value in quantized.tobytes()))
+        result.putpalette([0, 0, 0] + quantized.getpalette()[:255 * 3])
+        transparent = frame.getchannel("A").point(lambda alpha: 255 if alpha < 128 else 0)
+        result.paste(0, mask=transparent)
+        result.info["transparency"] = 0
+        frames.append(result)
+    buffer = io.BytesIO()
+    frames[0].save(buffer, format="GIF", save_all=True, append_images=frames[1:], duration=100,
+                   loop=0, disposal=1, optimize=True, transparency=0)
+    return buffer.getvalue()
+
+
 def main() -> None:
     """입력: 선택적 언어 스냅샷 경로; 반환: 없음. 카드와 README 캐시 키를 변경 시 갱신함."""
     parser = argparse.ArgumentParser()
@@ -142,14 +162,17 @@ def main() -> None:
     login = os.environ.get("GITHUB_REPOSITORY_OWNER", "FMsongX2")
     counts = json.loads(args.snapshot.read_text()) if args.snapshot else language_bytes(login)
     png = render(counts)
-    digest = hashlib.sha256(png).hexdigest()[:12]
+    gif = animate(png)
+    digest = hashlib.sha256(gif).hexdigest()[:12]
     if not OUTPUT.exists() or OUTPUT.read_bytes() != png:
         OUTPUT.write_bytes(png)
+    if not ANIMATED_OUTPUT.exists() or ANIMATED_OUTPUT.read_bytes() != gif:
+        ANIMATED_OUTPUT.write_bytes(gif)
     readme = README.read_text()
-    pattern = re.compile(r"hanabi-github-languages-night\.png(?:\?v=[0-9a-f]{12})?")
+    pattern = re.compile(r"hanabi-github-languages-(?:night\.png|animated\.gif)(?:\?v=[0-9a-f]{12})?")
     if not pattern.search(readme):
         raise ValueError("README image reference is missing")
-    updated = pattern.sub(f"hanabi-github-languages-night.png?v={digest}", readme)
+    updated = pattern.sub(f"hanabi-github-languages-animated.gif?v={digest}", readme)
     if updated != readme:
         README.write_text(updated)
     print(f"{login}: {len(counts)} languages, card revision {digest}")

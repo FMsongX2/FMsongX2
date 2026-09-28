@@ -29,11 +29,11 @@ jobs:
           python scripts/update_languages.py
       - name: Commit changed card
         run: |
-          if git diff --quiet -- README.md assets/hanabi-github-languages-night.png; then
+          git add README.md assets/hanabi-github-languages-night.png assets/hanabi-github-languages-animated.gif
+          if git diff --cached --quiet; then
             exit 0
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add README.md assets/hanabi-github-languages-night.png
           git commit -m '언어 게이지 갱신'
           git push

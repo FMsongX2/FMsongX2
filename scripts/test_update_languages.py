@@ -2,7 +2,7 @@
 # 외부 네트워크 없이 실행하며 실제 API 연결은 갱신 작업에서 확인함.
 import io
 
-from PIL import Image
+from PIL import Image, ImageChops
 
 import update_languages as card
 
@@ -43,4 +43,15 @@ image = Image.open(io.BytesIO(png)).convert("RGBA")
 assert image.size == card.SIZE
 assert image.getpixel((0, 0))[3] == 0
 assert image.getpixel((card.W, card.H))[3] == 255
+gif = Image.open(io.BytesIO(card.animate(png)))
+assert gif.size == (card.W, card.H)
+assert gif.n_frames == 140
+assert gif.info["loop"] == 0
+first = gif.convert("RGBA")
+assert first.getpixel((0, 0))[3] == 0
+gif.seek(7)
+later = gif.convert("RGBA")
+assert later.getpixel((0, 0))[3] == 0
+assert ImageChops.difference(first.crop((110, 90, 260, 250)).convert("RGB"), later.crop((110, 90, 260, 250)).convert("RGB")).getbbox()
+assert ImageChops.difference(first.crop((380, 0, 860, 340)).convert("RGB"), later.crop((380, 0, 860, 340)).convert("RGB")).getbbox() is None
 print("language aggregation and chart rendering OK")
