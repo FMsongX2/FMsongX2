@@ -14,16 +14,7 @@
 
 </div>
 
-## GitHub
-
 <div align="center">
-
-<img src="https://raw.githubusercontent.com/FMsongX2/FMsongX2/main/assets/hanabi-github-languages-night.png?v=5e7e7e92a633" alt="공개·비공개 저장소와 포크를 포함한 언어 비율 원형 게이지" width="760" />
-
+<img src="https://raw.githubusercontent.com/FMsongX2/FMsongX2/main/assets/hanabi-github-languages-night.png?v=5e7e7e92a633" alt="공개·비공개 저장소와 포크를 포함한 언어 비율 원형 게이지" width="590" align="middle" />
+<a href="https://solved.ac/profile/songsong97"><img src="https://mazassumnida.wtf/api/v2/generate_badge?boj=songsong97" alt="songsong97 solved.ac 프로필" width="250" align="middle" /></a>
 </div>
-
-## 백준
-
-<a href="https://solved.ac/profile/songsong97">
-  <img src="https://mazassumnida.wtf/api/v2/generate_badge?boj=songsong97" alt="songsong97 solved.ac 프로필" />
-</a>
