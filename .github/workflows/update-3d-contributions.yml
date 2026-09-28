@@ -1,0 +1,29 @@
+name: Update 3D contributions
+
+on:
+  schedule:
+    - cron: '29 3 * * *'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: yoshi389111/github-profile-3d-contrib@7d95e7d4cdc028dd1e1cbd957d65f35efb12ae39 # v0.9.3
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          USERNAME: ${{ github.repository_owner }}
+          SETTING_JSON: config/profile-3d.json
+      - name: Commit changed graph
+        run: |
+          git add -A profile-3d-contrib
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m '3D 기여 그래프 갱신'
+          git push

@@ -1,0 +1,11 @@
+{
+  "type": "normal",
+  "fileName": "profile-hanabi-night.svg",
+  "backgroundColor": "#0D1117",
+  "foregroundColor": "#F8F0F5",
+  "strongColor": "#FD7688",
+  "weakColor": "#B8B6C3",
+  "radarColor": "#FD7688",
+  "growingAnimation": false,
+  "contribColors": ["#202538", "#543149", "#A84E73", "#FD7688", "#FF9EB3"]
+}
