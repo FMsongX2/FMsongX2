@@ -24,7 +24,5 @@
 </div>
 
 <p align="center">
-  <img src="./assets/hanabi-sparkles-pose-b65185af.gif" alt="양팔을 벌리고 별이 반짝이는 하나비" width="20%" align="top" />
-  <img src="./profile-3d-contrib/profile-hanabi-grass.svg" alt="3D GitHub contribution graph" width="65%" align="top" />
-  <img src="./assets/hanabi-sparkles-smile-3887a14a.gif" alt="별이 번갈아 반짝이는 하나비" width="13%" align="top" />
+  <img src="./profile-3d-contrib/profile-hanabi-showcase.svg" alt="가운데 3D 기여 잔디와 양옆에서 별이 반짝이는 하나비" width="100%" />
 </p>

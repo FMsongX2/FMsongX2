@@ -2,7 +2,7 @@ name: Update 3D contributions
 
 on:
   schedule:
-    - cron: '29 3 * * *'
+    - cron: '17 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -19,6 +19,13 @@ jobs:
           SETTING_JSON: config/profile-3d.json
       - name: Keep contribution graph only
         run: python3 scripts/trim_3d_contrib.py profile-3d-contrib/profile-hanabi-grass.svg
+      - name: Compose animated showcase
+        run: >-
+          python3 scripts/compose_3d_showcase.py
+          profile-3d-contrib/profile-hanabi-grass.svg
+          assets/hanabi-sparkles-pose-overlay.apng
+          assets/hanabi-sparkles-smile-overlay.apng
+          profile-3d-contrib/profile-hanabi-showcase.svg
       - name: Commit changed graph
         run: |
           git add -A profile-3d-contrib
