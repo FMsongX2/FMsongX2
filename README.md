@@ -18,8 +18,7 @@
 
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/FMsongX2/FMsongX2/main/assets/hanabi-github-stats-ivory.png" alt="GitHub 통계 — 2026년 9월 기준" height="185" />
-<img src="https://raw.githubusercontent.com/FMsongX2/FMsongX2/main/assets/hanabi-github-languages-ivory.png" alt="사용 언어 — 2026년 9월 기준" height="185" />
+<img src="https://raw.githubusercontent.com/FMsongX2/FMsongX2/main/assets/hanabi-github-languages-donut.png" alt="공개 원본 저장소 언어 비율 원형 게이지 — 2026년 9월 기준" width="760" />
 
 </div>
 
