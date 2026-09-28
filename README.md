@@ -2,7 +2,7 @@
   <img src="https://capsule-render.vercel.app/api?type=waving&amp;color=0:2b5876,100:4e4376&amp;height=200&amp;section=header&amp;text=FMsongX2&amp;fontSize=45&amp;fontColor=ffffff&amp;animation=fadeIn&amp;fontAlignY=35&amp;desc=Systems%20Programming%20%2F%20High-Performance%20Networking%20%2F%20Software%20Architecture&amp;descAlignY=55&amp;descSize=18" alt="FMsongX2 — Systems Programming / High-Performance Networking / Software Architecture" />
 </p>
 
-# Hi! <img src="https://raw.githubusercontent.com/FMsongX2/FMsongX2/main/assets/hanabi-wave.png" alt="Waving Hanabi" width="42" align="bottom" /> I'm FMsongX2
+# Hi! <img src="https://raw.githubusercontent.com/FMsongX2/FMsongX2/main/assets/hanabi-wave.png" alt="Waving Hanabi" width="54" align="absmiddle" /> I'm FMsongX2
 
 ## Interests
 
@@ -18,6 +18,6 @@
 </div>
 
 <p align="center">
-  <img src="./assets/hanabi-sparkles-pose.gif" alt="양팔을 벌리고 별이 반짝이는 하나비" width="27%" align="bottom" />
+  <img src="./assets/hanabi-sparkles-pose-712686bc.gif" alt="양팔을 벌리고 별이 반짝이는 하나비" width="27%" align="bottom" />
   <img src="./profile-3d-contrib/profile-hanabi-night.svg" alt="3D GitHub contribution graph" width="71%" align="bottom" />
 </p>
