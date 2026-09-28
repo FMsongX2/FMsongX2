@@ -18,7 +18,7 @@
 
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/FMsongX2/FMsongX2/main/assets/hanabi-github-languages-night.png?v=285f4c4fef95" alt="포크를 포함한 공개 저장소 언어 비율 원형 게이지 — 매일 갱신" width="760" />
+<img src="https://raw.githubusercontent.com/FMsongX2/FMsongX2/main/assets/hanabi-github-languages-night.png?v=32b0d5bd7338" alt="포크를 포함한 공개 저장소 언어 비율 원형 게이지 — 매일 갱신" width="760" />
 
 </div>
 
