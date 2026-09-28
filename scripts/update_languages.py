@@ -43,6 +43,7 @@ def language_bytes(login: str) -> dict[str, int]:
     if not private_token:
         raise RuntimeError("PROFILE_LANGUAGES_TOKEN is required to avoid a public-only refresh")
     totals: Counter[str] = Counter()
+    private_repositories = 0
     for private in (False, True):
         token = private_token if private else os.environ.get("GITHUB_TOKEN", "")
         endpoint = ("https://api.github.com/user/repos" if private
@@ -57,12 +58,16 @@ def language_bytes(login: str) -> dict[str, int]:
             for repo in repos:
                 if repo["private"] != private or repo["owner"]["login"].casefold() != login.casefold():
                     continue
+                if private:
+                    private_repositories += 1
                 counts = github_json(repo["languages_url"], token)
                 for language, size in counts.items():
                     totals[language] += size
             if len(repos) < 100:
                 break
             page += 1
+    if private_repositories == 0:
+        raise ValueError("Token cannot access owned private repositories; grant access to all repositories")
     if not totals:
         raise ValueError("No language data; keeping the existing card")
     return dict(totals)

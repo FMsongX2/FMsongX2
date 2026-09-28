@@ -30,6 +30,21 @@ card.os.environ["GITHUB_TOKEN"] = "public-read"
 card.os.environ["PROFILE_LANGUAGES_TOKEN"] = "private-read"
 counts = card.language_bytes("FMsongX2")
 assert counts == {"TypeScript": 150, "Rust": 50, "C#": 100}
+
+
+def fake_public_only(url: str, token: str) -> object:
+    """입력: 테스트 API URL·토큰; 반환: 비공개 저장소 접근이 빠진 응답."""
+    return [] if "/user/repos" in url else fake_github_json(url, token)
+
+
+card.github_json = fake_public_only
+try:
+    card.language_bytes("FMsongX2")
+except ValueError as error:
+    assert "private repositories" in str(error)
+else:
+    raise AssertionError("Private token without repository access must not overwrite the card")
+card.github_json = fake_github_json
 card.os.environ.pop("PROFILE_LANGUAGES_TOKEN")
 try:
     card.language_bytes("FMsongX2")
