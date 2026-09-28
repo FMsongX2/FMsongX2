@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/hanabi-profile-header-359a17fe.png" alt="FMsongX2 — Systems Programming / High-Performance Networking / Software Architecture. Hi! I'm FMsongX2, with waving and shh Hanabi." width="854" />
+  <img src="./assets/hanabi-profile-header-db217875.png" alt="FMsongX2 — Systems Programming / High-Performance Networking / Software Architecture. Hi! I'm FMsongX2, with waving and shh Hanabi." width="854" />
 </p>
 
 ## Interests
