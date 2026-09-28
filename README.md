@@ -20,7 +20,7 @@
 ![Engineering and coding tools](./assets/engineering-skills.svg)
 
 <div align="center">
-<img src="https://raw.githubusercontent.com/FMsongX2/FMsongX2/main/assets/hanabi-github-languages-5754ce2c6ec1.gif" alt="가운데 잠자는 하나비가 움직이는 공개·비공개 저장소 언어 게이지" width="49.14%" align="top" />&emsp;&emsp;<a href="https://solved.ac/profile/songsong97"><img src="https://mazassumnida.wtf/api/v2/generate_badge?boj=songsong97" alt="songsong97 solved.ac 프로필" width="40%" align="top" /></a>
+<img src="https://raw.githubusercontent.com/FMsongX2/FMsongX2/main/assets/hanabi-github-languages-86da2ebe97cc.gif" alt="가운데 잠자는 하나비가 움직이는 공개·비공개 저장소 언어 게이지" width="49.14%" align="top" />&emsp;&emsp;<a href="https://solved.ac/profile/songsong97"><img src="https://mazassumnida.wtf/api/v2/generate_badge?boj=songsong97" alt="songsong97 solved.ac 프로필" width="40%" align="top" /></a>
 </div>
 
 <p align="center">
