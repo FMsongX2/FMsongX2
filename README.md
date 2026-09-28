@@ -28,6 +28,7 @@
 </div>
 
 <p align="center">
-  <img src="./assets/hanabi-sparkles-pose-712686bc.gif" alt="양팔을 벌리고 별이 반짝이는 하나비" width="27%" align="bottom" />
-  <img src="./profile-3d-contrib/profile-hanabi-night.svg" alt="3D GitHub contribution graph" width="71%" align="bottom" />
+  <img src="./assets/hanabi-sparkles-pose-a63c94b4.gif" alt="양팔을 벌리고 별이 반짝이는 하나비" width="25%" align="top" />
+  <img src="./profile-3d-contrib/profile-hanabi-night.svg" alt="3D GitHub contribution graph" width="56%" align="top" />
+  <img src="./assets/hanabi-sparkles-smile.gif" alt="별이 번갈아 반짝이는 하나비" width="17%" align="top" />
 </p>
