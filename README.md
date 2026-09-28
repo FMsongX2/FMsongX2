@@ -3,5 +3,5 @@
 </p>
 
 <div align="center">
-<img src="https://raw.githubusercontent.com/FMsongX2/FMsongX2/main/assets/hanabi-github-languages-animated.gif?v=509b4b2b3087" alt="가운데 잠자는 하나비가 움직이는 공개·비공개 저장소 언어 게이지" width="50%" align="middle" />&emsp;&emsp;<a href="https://solved.ac/profile/songsong97"><img src="https://mazassumnida.wtf/api/v2/generate_badge?boj=songsong97" alt="songsong97 solved.ac 프로필" width="40%" align="middle" /></a>
+<img src="https://raw.githubusercontent.com/FMsongX2/FMsongX2/main/assets/hanabi-github-languages-animated.gif?v=009ac0a77d6f" alt="가운데 잠자는 하나비가 움직이는 공개·비공개 저장소 언어 게이지" width="50%" align="middle" />&emsp;&emsp;<a href="https://solved.ac/profile/songsong97"><img src="https://mazassumnida.wtf/api/v2/generate_badge?boj=songsong97" alt="songsong97 solved.ac 프로필" width="40%" align="middle" /></a>
 </div>
