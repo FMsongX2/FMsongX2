@@ -19,7 +19,6 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 ROOT = Path(__file__).resolve().parents[1]
 ASSETS = ROOT / "assets"
 OUTPUT = ASSETS / "hanabi-github-languages-night.png"
-ANIMATED_OUTPUT = ASSETS / "hanabi-github-languages-animated.gif"
 README = ROOT / "README.md"
 FONT_DIR = ASSETS / "fonts"
 S = 2
@@ -164,15 +163,22 @@ def main() -> None:
     png = render(counts)
     gif = animate(png)
     digest = hashlib.sha256(gif).hexdigest()[:12]
+    animated_output = ASSETS / f"hanabi-github-languages-{digest}.gif"
     if not OUTPUT.exists() or OUTPUT.read_bytes() != png:
         OUTPUT.write_bytes(png)
-    if not ANIMATED_OUTPUT.exists() or ANIMATED_OUTPUT.read_bytes() != gif:
-        ANIMATED_OUTPUT.write_bytes(gif)
+    if not animated_output.exists() or animated_output.read_bytes() != gif:
+        animated_output.write_bytes(gif)
+    legacy = ASSETS / "hanabi-github-languages-animated.gif"
+    if legacy.exists():
+        legacy.unlink()
+    for stale in ASSETS.glob("hanabi-github-languages-????????????.gif"):
+        if stale != animated_output and re.fullmatch(r"hanabi-github-languages-[0-9a-f]{12}\.gif", stale.name):
+            stale.unlink()
     readme = README.read_text()
-    pattern = re.compile(r"hanabi-github-languages-(?:night\.png|animated\.gif)(?:\?v=[0-9a-f]{12})?")
+    pattern = re.compile(r"hanabi-github-languages-(?:animated|[0-9a-f]{12})\.gif(?:\?v=[0-9a-f]{12})?")
     if not pattern.search(readme):
         raise ValueError("README image reference is missing")
-    updated = pattern.sub(f"hanabi-github-languages-animated.gif?v={digest}", readme)
+    updated = pattern.sub(animated_output.name, readme)
     if updated != readme:
         README.write_text(updated)
     print(f"{login}: {len(counts)} languages, card revision {digest}")

@@ -29,7 +29,7 @@ jobs:
           python scripts/update_languages.py
       - name: Commit changed card
         run: |
-          git add README.md assets/hanabi-github-languages-night.png assets/hanabi-github-languages-animated.gif
+          git add -A README.md assets
           if git diff --cached --quiet; then
             exit 0
           fi
