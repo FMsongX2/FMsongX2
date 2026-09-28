@@ -17,8 +17,8 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           USERNAME: ${{ github.repository_owner }}
           SETTING_JSON: config/profile-3d.json
-      - name: Remove duplicate stats
-        run: python3 scripts/trim_3d_contrib.py profile-3d-contrib/profile-hanabi-night.svg
+      - name: Keep contribution graph only
+        run: python3 scripts/trim_3d_contrib.py profile-3d-contrib/profile-hanabi-grass.svg
       - name: Commit changed graph
         run: |
           git add -A profile-3d-contrib

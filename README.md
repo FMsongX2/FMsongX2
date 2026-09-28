@@ -2,13 +2,9 @@
   <img src="https://capsule-render.vercel.app/api?type=waving&amp;color=0:2b5876,100:4e4376&amp;height=200&amp;section=header&amp;text=FMsongX2&amp;fontSize=45&amp;fontColor=ffffff&amp;animation=fadeIn&amp;fontAlignY=35&amp;desc=Systems%20Programming%20%2F%20High-Performance%20Networking%20%2F%20Software%20Architecture&amp;descAlignY=55&amp;descSize=18" alt="FMsongX2 — Systems Programming / High-Performance Networking / Software Architecture" />
 </p>
 
-<img src="./assets/hanabi-shh.png" alt="쉿 포즈의 하나비" width="151" align="right" />
-
-<br /><br /><br />
+<img src="./assets/hanabi-shh-dark.png" alt="쉿 포즈의 하나비" width="151" align="right" />
 
 # Hi! <img src="https://raw.githubusercontent.com/FMsongX2/FMsongX2/main/assets/hanabi-wave.png" alt="Waving Hanabi" width="54" align="absbottom" /> I'm FMsongX2
-
-<br clear="all" />
 
 ## Interests
 
@@ -28,7 +24,7 @@
 </div>
 
 <p align="center">
-  <img src="./assets/hanabi-sparkles-pose-a63c94b4.gif" alt="양팔을 벌리고 별이 반짝이는 하나비" width="25%" align="top" />
-  <img src="./profile-3d-contrib/profile-hanabi-night.svg" alt="3D GitHub contribution graph" width="56%" align="top" />
-  <img src="./assets/hanabi-sparkles-smile.gif" alt="별이 번갈아 반짝이는 하나비" width="17%" align="top" />
+  <img src="./assets/hanabi-sparkles-pose-ecd494e9.gif" alt="양팔을 벌리고 별이 반짝이는 하나비" width="25%" align="top" />
+  <img src="./profile-3d-contrib/profile-hanabi-grass.svg" alt="3D GitHub contribution graph" width="56%" align="top" />
+  <img src="./assets/hanabi-sparkles-smile-1abc34f9.gif" alt="별이 번갈아 반짝이는 하나비" width="17%" align="top" />
 </p>

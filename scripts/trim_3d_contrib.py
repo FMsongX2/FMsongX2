@@ -1,6 +1,7 @@
 # 3D 기여 그래프에서 언어 도넛·활동 레이더·하단 수치를 제거함.
 # 기여 평면은 원본 생성 결과를 유지함.
 from pathlib import Path
+import re
 import sys
 import xml.etree.ElementTree as ET
 
@@ -17,6 +18,9 @@ def main(path: Path) -> None:
             node.text in {"Commit", "contributions"} for node in element.iter()
         ):
             root.remove(element)
+    style = root.find(f"{{{namespace}}}style")
+    if style is not None and style.text:
+        style.text = re.sub(r"\.radar\s*\{[^}]*\}", "", style.text)
     tree.write(path, encoding="utf-8", xml_declaration=True)
 
 

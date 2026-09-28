@@ -7,12 +7,7 @@
 .fill-strong { fill: #FD7688; }
 .fill-weak { fill: #B8B6C3; }
 .stroke-weak { stroke: #B8B6C3; }
-.radar {
-stroke-width: 4px;
-stroke: #FD7688;
-fill: #FD7688;
-fill-opacity: 0.5;
-}
+
 .cont-top-0 { fill: rgb(32, 37, 56); }
 .cont-left-0 { fill: rgb(27, 31, 47); }
 .cont-right-0 { fill: rgb(22, 26, 39); }
