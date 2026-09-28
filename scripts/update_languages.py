@@ -165,6 +165,7 @@ def main() -> None:
     args = parser.parse_args()
     login = os.environ.get("GITHUB_REPOSITORY_OWNER", "FMsongX2")
     counts = json.loads(args.snapshot.read_text()) if args.snapshot else language_bytes(login)
+    data_digest = hashlib.sha256(json.dumps(counts, sort_keys=True).encode()).hexdigest()[:12]
     png = render(counts)
     gif = animate(png)
     digest = hashlib.sha256(gif).hexdigest()[:12]
@@ -186,7 +187,7 @@ def main() -> None:
     updated = pattern.sub(animated_output.name, readme)
     if updated != readme:
         README.write_text(updated)
-    print(f"{login}: {len(counts)} languages, card revision {digest}")
+    print(f"{login}: {len(counts)} languages, data revision {data_digest}, card revision {digest}")
 
 
 if __name__ == "__main__":
