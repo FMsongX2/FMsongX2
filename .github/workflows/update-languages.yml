@@ -20,7 +20,7 @@ jobs:
       - name: Update card
         env:
           GITHUB_TOKEN: ${{ github.token }}
-          PROFILE_LANGUAGES_TOKEN: ${{ secrets.PROFILE_LANGUAGES_TOKEN }}
+          PROFILE_LANGUAGES_TOKEN: ${{ secrets.PROFILE_LANGUAGES_TOKEN || secrets.FMSONGX2 }}
         run: |
           if [ -z "$PROFILE_LANGUAGES_TOKEN" ]; then
             echo '::warning::PROFILE_LANGUAGES_TOKEN is missing; keeping the existing card'
